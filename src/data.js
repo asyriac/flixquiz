@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from "uuid";
 const data = [
   {
     id: uuidv4(),
-    genre: "Office Quiz",
+    title: "Office Quiz",
     image:
       "https://media.fromthegrapevine.com/assets/images/2018/4/the-office-u.S..jpg.696x0_q71_crop-smart.jpg?auto=compress&cs=tinysrgb&dpr=2&h=5100",
     questions: [
@@ -67,7 +67,7 @@ const data = [
   },
   {
     id: uuidv4(),
-    genre: "Friends Quiz",
+    title: "Friends Quiz",
     image:
       "https://variety.com/wp-content/uploads/2020/02/friends-tv-series.jpg?w=1000",
     questions: [
@@ -132,7 +132,7 @@ const data = [
   },
   {
     id: uuidv4(),
-    genre: "Movies Quiz",
+    title: "Movies Quiz",
     image: "https://wallpapercave.com/wp/wp5483697.jpg",
     questions: [
       {

@@ -1,0 +1,46 @@
+@media (max-width: 500px) {
+  .question-count {
+    text-align: center;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .btn-secondary:hover {
+    border: 1px solid var(--primary);
+    background: none;
+    color: var(--primary);
+  }
+}
+
+.btn-secondary-disabled {
+  border: 1px solid #1e40af;
+  cursor: default;
+}
+
+.green,
+.green:hover {
+  background-color: green;
+  border-color: green;
+  color: white;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.red,
+.red:hover {
+  background-color: red;
+  border-color: red;
+  color: white;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.review:last-child {
+  margin-bottom: 2rem;
+}
+
+.review div:not(:first-of-type) {
+  margin-top: 2.5rem;
+}
+
+.replay-game {
+  color: var(--primary);
+}
