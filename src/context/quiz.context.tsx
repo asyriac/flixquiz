@@ -1,7 +1,7 @@
 import { createContext, useContext, useEffect, useReducer } from "react";
 import { initialState, quizReducer } from "../reducers/quiz.reducer";
 import { QuizHistory, QuizState } from "../types/quiz.types";
-import data from "../data";
+import axios from "axios";
 
 interface ContextType extends QuizState {
   selectQuiz: (selectedQuizTitle: string) => void;
@@ -17,8 +17,10 @@ const QuizContext = createContext<ContextType>({} as ContextType);
 export const QuizProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
 
-  const fetchQuizzes = () => {
-    dispatch({ type: "FETCH_QUIZZES", payload: data });
+  const fetchQuizzes = async () => {
+    const res = await axios.get("https://flixquiz-backend.herokuapp.com/api/v1/quiz");
+    console.log(res.data.data);
+    dispatch({ type: "FETCH_QUIZZES", payload: res.data.data });
   };
 
   const selectQuiz = (selectedQuizTitle: string) => {

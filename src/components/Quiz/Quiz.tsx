@@ -80,7 +80,7 @@ const CurrentQuestion = ({ question }: Prop) => {
 
 const TakeQuiz = () => {
   const { quizBank, selectedQuiz, currentQuestionNumber, history, score, resetGame } = useQuizContext();
-  const [timer, setTimer] = useState(60);
+  const [timer, setTimer] = useState(5);
   const quizDetails = quizBank.filter((item) => item.title === selectedQuiz)[0];
   const timerRef = useRef<number | null>(null);
 
@@ -93,9 +93,10 @@ const TakeQuiz = () => {
         return 0;
       });
     }, 1000);
-  }, [resetGame]);
+  }, []);
 
   const resetTimer = () => {
+    console.log(timerRef.current);
     window.clearInterval(timerRef.current || 0);
     timerRef.current = null;
   };
