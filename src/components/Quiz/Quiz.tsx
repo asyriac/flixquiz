@@ -80,7 +80,7 @@ const CurrentQuestion = ({ question }: Prop) => {
 
 const TakeQuiz = () => {
   const { quizBank, selectedQuiz, currentQuestionNumber, history, score, resetGame } = useQuizContext();
-  const [timer, setTimer] = useState(5);
+  const [timer, setTimer] = useState(60);
   const quizDetails = quizBank.filter((item) => item.title === selectedQuiz)[0];
   const timerRef = useRef<number | null>(null);
 
