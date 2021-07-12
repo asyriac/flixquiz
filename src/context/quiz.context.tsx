@@ -18,8 +18,7 @@ export const QuizProvider: React.FC = ({ children }) => {
   const [state, dispatch] = useReducer(quizReducer, initialState);
 
   const fetchQuizzes = async () => {
-    const res = await axios.get("https://flixquiz-backend.herokuapp.com/api/v1/quiz");
-    console.log(res.data.data);
+    const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/v1/quiz`);
     dispatch({ type: "FETCH_QUIZZES", payload: res.data.data });
   };
 

@@ -9,17 +9,17 @@ type Prop = {
 };
 
 const Review = ({ data, quizDetails }: { data: QuizHistory[]; quizDetails: Quiz }) => {
-  console.log(data[0]);
   return (
     <div className="review">
       {quizDetails?.questions.map((item, i) => {
         return (
-          <div>
+          <div key={item._id}>
             <h3 className="text-center mt-1">{item.question}</h3>
             <div className="flex flex-col mt-lg flex-center" style={{ gap: "0.5em" }}>
               {item.options.map((item) => (
                 <button
-                  className={`btn btn-secondary-disabled ${data[i].selectedOption === item.id && !item.isRight && "red"} ${item.isRight && "green"}`}
+                  key={item._id}
+                  className={`btn btn-secondary-disabled ${data[i].selectedOption === item._id && !item.isRight && "red"} ${item.isRight && "green"}`}
                   style={{ width: "100%", maxWidth: "800px" }}
                 >
                   {item.text}
@@ -36,11 +36,18 @@ const Review = ({ data, quizDetails }: { data: QuizHistory[]; quizDetails: Quiz 
 const CurrentQuestion = ({ question }: Prop) => {
   const [disabledButton, setDisabledButton] = useState(false);
   const { incrementQuestion, logAnswer, incrementScore, decrementScore } = useQuizContext();
+  const delayRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      window.clearInterval(delayRef.current || 0);
+    };
+  }, []);
 
   const handleClick = (e: React.MouseEvent<HTMLElement>, selectedOption: string, isRight: boolean) => {
     const selectedOpt = e.target;
     logAnswer({
-      id: question.id,
+      id: question._id,
       selectedOption,
     });
 
@@ -48,7 +55,7 @@ const CurrentQuestion = ({ question }: Prop) => {
     if (isRight) {
       (selectedOpt as HTMLElement).classList.add("green");
       incrementScore(question.points);
-      setTimeout(() => {
+      delayRef.current = window.setTimeout(() => {
         (selectedOpt as HTMLElement).classList.remove("green");
         incrementQuestion();
         setDisabledButton(false);
@@ -56,7 +63,7 @@ const CurrentQuestion = ({ question }: Prop) => {
     } else {
       (selectedOpt as HTMLElement).classList.add("red");
       decrementScore(question.negativePoints);
-      setTimeout(() => {
+      delayRef.current = window.setTimeout(() => {
         (selectedOpt as HTMLElement).classList.remove("red");
         incrementQuestion();
         setDisabledButton(false);
@@ -69,7 +76,12 @@ const CurrentQuestion = ({ question }: Prop) => {
       <h3 className="text-center mt-md">{question.question}</h3>
       <div className="flex flex-col mt-lg flex-center" style={{ gap: "0.5em" }}>
         {question.options.map((item) => (
-          <button onClick={disabledButton ? undefined : (e) => handleClick(e, item.id, item.isRight)} className="btn btn-secondary" style={{ width: "100%", maxWidth: "800px" }}>
+          <button
+            key={item._id}
+            onClick={disabledButton ? undefined : (e) => handleClick(e, item._id, item.isRight)}
+            className="btn btn-secondary"
+            style={{ width: "100%", maxWidth: "800px" }}
+          >
             {item.text}
           </button>
         ))}
@@ -93,10 +105,12 @@ const TakeQuiz = () => {
         return 0;
       });
     }, 1000);
-  }, []);
+    return () => {
+      window.clearInterval(timerRef.current || 0);
+    };
+  }, [resetGame]);
 
   const resetTimer = () => {
-    console.log(timerRef.current);
     window.clearInterval(timerRef.current || 0);
     timerRef.current = null;
   };
@@ -118,8 +132,8 @@ const TakeQuiz = () => {
         <>
           {resetTimer()}
           <h2 className="text-center mt-md mb-sm">Game over! You scored {score} points</h2>
-          <h2 className="text-center mb-sm" onClick={() => resetGame()}>
-            <Link to="/" className="replay-game">
+          <h2 className="text-center mb-sm">
+            <Link to="/" className="replay-game" onClick={() => resetGame()}>
               Play again?
             </Link>
           </h2>

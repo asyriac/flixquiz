@@ -1,14 +1,29 @@
+import { Link } from "react-router-dom";
+import { useAuthContext } from "../../context/auth.context";
+
 const Navbar = () => {
+  const { isLoggedIn, logoutUser } = useAuthContext();
   return (
-    <nav
-      className="bg-white"
-      style={{ boxShadow: "0 2px 5px rgb(0 0 0 / 20%)" }}
-    >
-      <div className="nav bg-white">
-        <div className="nav-brand" style={{ width: "100%" }}>
-          <h1 className="text-center">Flixquiz</h1>
-        </div>
+    <nav className="nav bg-white sticky">
+      <div className="nav-brand">
+        <h2>
+          <Link to="/">FlixQuiz</Link>
+        </h2>
       </div>
+
+      {isLoggedIn ? (
+        <ul className="nav-link">
+          <li className="nav-link-item" style={{ cursor: "pointer" }} onClick={() => logoutUser()}>
+            Logout
+          </li>
+        </ul>
+      ) : (
+        <ul className="nav-link">
+          <li className="nav-link-item">
+            <Link to="/login">Login</Link>
+          </li>
+        </ul>
+      )}
     </nav>
   );
 };
