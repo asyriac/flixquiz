@@ -30,6 +30,7 @@ export type QuizState = {
     currentQuestionNumber: number;
     selectedQuiz: string;
     history: QuizHistory[];
+    quizLoading: Boolean;
 }
 
 export type ActionType = 

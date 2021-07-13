@@ -5,6 +5,7 @@ export const initialState:QuizState = {
     currentQuestionNumber: 0,
     selectedQuiz: "",
     history: [],
+    quizLoading: true,
 }
 
 
@@ -13,7 +14,8 @@ export const quizReducer = (state:QuizState, action:ActionType) => {
         case "FETCH_QUIZZES":
             return {
                 ...state,
-                quizBank: action.payload
+                quizBank: action.payload,
+                quizLoading: false
             }
         case "SELECT_QUIZ":{
             return {
